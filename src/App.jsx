@@ -6,10 +6,12 @@ import Header from "./components/Header/Header";
 import List from "./components/List/List";
 import Map from "./components/Map/Map";
 
+import dummyData from "./api/dummyData";
+
 const App = () => {
-  const [places, setPlaces] = useState([]);
+  const [places, setPlaces] = useState(dummyData.data);
   const [coordinates, setCoordinates] = useState({});
-  const [bounds, setBounds] = useState(null);
+  const [bounds, setBounds] = useState({});
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -18,11 +20,11 @@ const App = () => {
       }
     );
   }, []);
-  useEffect(() => {
-    getPlacesData("", bounds?.sw, bounds?.ne).then((data) => {
-      setPlaces(data);
-    });
-  }, [coordinates, bounds]);
+  // useEffect(() => {
+  //   getPlacesData("", bounds?.sw, bounds?.ne).then((data) => {
+  //     setPlaces(data);
+  //   });
+  // }, [coordinates, bounds]);
 
   return (
     <>
