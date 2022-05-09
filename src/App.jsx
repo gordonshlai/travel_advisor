@@ -6,10 +6,12 @@ import Header from "./components/Header/Header";
 import List from "./components/List/List";
 import Map from "./components/Map/Map";
 
-import dummyData from "./api/dummyData";
+import restaurants from "./api/restaurants";
+import hotels from "./api/hotels";
+import attractions from "./api/attractions";
 
 const App = () => {
-  // const [places, setPlaces] = useState(dummyData.data);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [places, setPlaces] = useState([]);
   const [childClicked, setChildClicked] = useState(null);
 
@@ -18,6 +20,9 @@ const App = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [type, setType] = useState("restaurants");
+  const [rating, setRating] = useState("");
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
@@ -25,15 +30,30 @@ const App = () => {
       }
     );
   }, []);
+
+  useEffect(() => {
+    const filtered = places.filter((place) => Number(place.rating) > rating);
+
+    setFilteredPlaces(filtered);
+  }, [rating]);
+
   useEffect(() => {
     setIsLoading(true);
-    // getPlacesData("", bounds?.sw, bounds?.ne).then((data) => {
+    // getPlacesData(type, bounds?.sw, bounds?.ne).then((data) => {
     //   setPlaces(data);
+    //   setFilteredPlaces([]);
     //   setIsLoading(false);
     // });
-    setPlaces(dummyData.data);
+
+    setPlaces(
+      type === "restaurants"
+        ? restaurants.data
+        : type === "hotels"
+        ? hotels.data
+        : attractions.data
+    );
     setIsLoading(false);
-  }, [coordinates, bounds]);
+  }, [type, coordinates, bounds]);
 
   return (
     <>
@@ -45,12 +65,11 @@ const App = () => {
           <List
             isLoading={isLoading}
             childClicked={childClicked}
-            // places={filteredPlaces.length ? filteredPlaces : places}
-            places={places}
-            // type={type}
-            // setType={setType}
-            // rating={rating}
-            // setRating={setRating}
+            places={filteredPlaces.length ? filteredPlaces : places}
+            type={type}
+            setType={setType}
+            rating={rating}
+            setRating={setRating}
           />
         </Grid>
         <Grid
@@ -68,8 +87,7 @@ const App = () => {
             setBounds={setBounds}
             setCoordinates={setCoordinates}
             coordinates={coordinates}
-            // places={filteredPlaces.length ? filteredPlaces : places}
-            places={places}
+            places={filteredPlaces.length ? filteredPlaces : places}
             // weatherData={weatherData}
           />
         </Grid>
