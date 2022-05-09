@@ -7,9 +7,9 @@ import Rating from "@material-ui/lab/Rating";
 // import mapStyles from "../../mapStyles";
 import useStyles from "./styles.js";
 
-const Map = ({ setBounds, setCoordinates, coordinates }) => {
+const Map = ({ setBounds, setCoordinates, coordinates, places }) => {
   const classes = useStyles();
-  const isMobile = useMediaQuery("(min-width:600px)");
+  const isDesktop = useMediaQuery("(min-width:600px)");
 
   return (
     <div className={classes.mapContainer}>
@@ -26,13 +26,9 @@ const Map = ({ setBounds, setCoordinates, coordinates }) => {
         }}
         onChildClick={""}
         // options={{ disableDefaultUI: true, zoomControl: true, styles: mapStyles }}
-        // onChange={(e) => {
-        //   setCoords({ lat: e.center.lat, lng: e.center.lng });
-        //   setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
-        // }}
         // onChildClick={(child) => setChildClicked(child)}
       >
-        {/* {places.length &&
+        {places.length &&
           places.map((place, i) => (
             <div
               className={classes.markerContainer}
@@ -40,7 +36,7 @@ const Map = ({ setBounds, setCoordinates, coordinates }) => {
               lng={Number(place.longitude)}
               key={i}
             >
-              {!matches ? (
+              {!isDesktop ? (
                 <LocationOnOutlinedIcon color="primary" fontSize="large" />
               ) : (
                 <Paper elevation={3} className={classes.paper}>
@@ -49,7 +45,6 @@ const Map = ({ setBounds, setCoordinates, coordinates }) => {
                     variant="subtitle2"
                     gutterBottom
                   >
-                    {" "}
                     {place.name}
                   </Typography>
                   <img
@@ -59,6 +54,7 @@ const Map = ({ setBounds, setCoordinates, coordinates }) => {
                         ? place.photo.images.large.url
                         : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
                     }
+                    alt={place.name}
                   />
                   <Rating
                     name="read-only"
@@ -70,7 +66,7 @@ const Map = ({ setBounds, setCoordinates, coordinates }) => {
               )}
             </div>
           ))}
-        {weatherData?.list?.length &&
+        {/* {weatherData?.list?.length &&
           weatherData.list.map((data, i) => (
             <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
               <img

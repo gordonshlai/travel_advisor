@@ -60,6 +60,7 @@ const App = () => {
             setCoordinates={setCoordinates}
             coordinates={coordinates}
             // places={filteredPlaces.length ? filteredPlaces : places}
+            places={places}
             // weatherData={weatherData}
           />
         </Grid>
