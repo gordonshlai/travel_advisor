@@ -8,11 +8,11 @@ import mapStyles from "../../mapStyles";
 import useStyles from "./styles.js";
 
 const Map = ({
-  setBounds,
-  setCoordinates,
   coordinates,
   places,
+  setBounds,
   setChildClicked,
+  setCoordinates,
   weatherData,
 }) => {
   const classes = useStyles();

@@ -13,13 +13,13 @@ import PlaceDetails from "../PlaceDetails/PlaceDetails";
 import useStyles from "./styles.js";
 
 const List = ({
-  places,
   childClicked,
   isLoading,
-  type,
-  setType,
+  places,
   rating,
   setRating,
+  setType,
+  type,
 }) => {
   const [elRefs, setElRefs] = useState([]);
 
