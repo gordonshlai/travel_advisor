@@ -16,7 +16,7 @@ const App = () => {
   const [childClicked, setChildClicked] = useState(null);
 
   const [coordinates, setCoordinates] = useState({});
-  const [bounds, setBounds] = useState({});
+  const [bounds, setBounds] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,28 +38,30 @@ const App = () => {
   }, [rating]);
 
   useEffect(() => {
-    setIsLoading(true);
-    // getPlacesData(type, bounds?.sw, bounds?.ne).then((data) => {
-    //   setPlaces(data);
-    //   setFilteredPlaces([]);
-    //   setIsLoading(false);
-    // });
+    if (bounds) {
+      setIsLoading(true);
+      // getPlacesData(type, bounds?.sw, bounds?.ne).then((data) => {
+      //   setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
+      //   setFilteredPlaces([]);
+      //   setIsLoading(false);
+      // });
 
-    setPlaces(
-      type === "restaurants"
-        ? restaurants.data
-        : type === "hotels"
-        ? hotels.data
-        : attractions.data
-    );
-    setIsLoading(false);
-  }, [type, coordinates, bounds]);
+      const data =
+        type === "restaurants"
+          ? restaurants.data
+          : type === "hotels"
+          ? hotels.data
+          : attractions.data;
+      setPlaces(data);
+      setIsLoading(false);
+    }
+  }, [type, bounds]);
 
   return (
     <>
       <CssBaseline />
+      <Header setCoordinates={setCoordinates} />
       {/* <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad} /> */}
-      <Header />
       <Grid container spacing={3} style={{ width: "100%" }}>
         <Grid item xs={12} md={4}>
           <List
